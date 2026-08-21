@@ -1,0 +1,9 @@
+{
+  "title": "Draft only (not public)",
+  "slug": "draft-sample",
+  "status": "draft",
+  "experienceId": "default",
+  "excerpt": "This draft should not appear on the public list.",
+  "publishedAt": null,
+  "content": "If you can read this on `/essays/draft-sample`, draft filtering is broken."
+}

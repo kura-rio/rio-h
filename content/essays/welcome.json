@@ -1,0 +1,9 @@
+{
+  "title": "Welcome to RIO LAB",
+  "slug": "welcome",
+  "status": "published",
+  "experienceId": "default",
+  "excerpt": "A short note on what this lab is for.",
+  "publishedAt": "2026-08-21",
+  "content": "RIO LAB is a space for **experimental web essays** and creative coding.\n\nEach essay can carry its own experience — for now, this one uses the default layout.\n\n## What comes next\n\nMore essays, more forms, more experiments."
+}
