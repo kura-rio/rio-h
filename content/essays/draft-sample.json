@@ -1,9 +1,9 @@
 {
-  "title": "Draft only (not public)",
+  "title": "下書きサンプル（非公開）",
   "slug": "draft-sample",
   "status": "draft",
   "experienceId": "default",
-  "excerpt": "This draft should not appear on the public list.",
+  "excerpt": "この下書きは公開一覧に出てはいけません。",
   "publishedAt": null,
-  "content": "If you can read this on `/essays/draft-sample`, draft filtering is broken."
+  "content": "`/essays/draft-sample` でこの文が読める場合、下書きの除外が壊れています。"
 }

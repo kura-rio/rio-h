@@ -3,8 +3,8 @@ import Link from "next/link";
 import { listPublishedEssays } from "@/lib/essays/read";
 
 export const metadata: Metadata = {
-  title: "Essays — RIO LAB",
-  description: "Written experiments in form and thought",
+  title: "エッセイ — RIO LAB",
+  description: "形式と思想の実験的な文章",
 };
 
 export default async function EssaysPage() {
@@ -14,15 +14,13 @@ export default async function EssaysPage() {
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-          Essays
+          エッセイ
         </h1>
-        <p className="text-foreground/70">
-          Written experiments in form and thought
-        </p>
+        <p className="text-foreground/70">形式と思想の実験的な文章</p>
       </div>
 
       {essays.length === 0 ? (
-        <p className="text-foreground/70">No essays published yet.</p>
+        <p className="text-foreground/70">まだ公開されたエッセイはありません。</p>
       ) : (
         <ul className="flex flex-col gap-6">
           {essays.map((essay) => (

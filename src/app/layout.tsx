@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "RIO LAB",
-  description: "Experimental web essay & creative coding lab",
+  description: "体験型ウェブエッセイとクリエイティブコーディングのラボ",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

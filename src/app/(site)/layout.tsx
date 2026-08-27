@@ -5,26 +5,26 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <header className="mx-auto w-full max-w-2xl px-6 pt-10">
-        <nav aria-label="Primary">
+        <nav aria-label="メインナビゲーション">
           <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-foreground/70">
             <li>
               <Link href="/" className="hover:text-foreground">
-                Home
+                ホーム
               </Link>
             </li>
             <li>
               <Link href="/essays" className="hover:text-foreground">
-                Essays
+                エッセイ
               </Link>
             </li>
             <li>
               <Link href="/experiments" className="hover:text-foreground">
-                Experiments
+                実験
               </Link>
             </li>
             <li>
               <Link href="/about" className="hover:text-foreground">
-                About
+                について
               </Link>
             </li>
           </ul>

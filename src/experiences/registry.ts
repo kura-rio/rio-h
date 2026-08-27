@@ -13,7 +13,7 @@ export type ExperienceDefinition = {
 const experiences: Record<string, ExperienceDefinition> = {
   default: {
     id: "default",
-    name: "Default",
+    name: "デフォルト",
     Component: DefaultExperience,
   },
 };

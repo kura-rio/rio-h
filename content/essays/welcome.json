@@ -1,9 +1,9 @@
 {
-  "title": "Welcome to RIO LAB",
+  "title": "RIO LABへようこそ",
   "slug": "welcome",
   "status": "published",
   "experienceId": "default",
-  "excerpt": "A short note on what this lab is for.",
+  "excerpt": "このラボが何のための場所か、短いメモです。",
   "publishedAt": "2026-08-21",
-  "content": "RIO LAB is a space for **experimental web essays** and creative coding.\n\nEach essay can carry its own experience — for now, this one uses the default layout.\n\n## What comes next\n\nMore essays, more forms, more experiments."
+  "content": "RIO LAB は、**体験型ウェブエッセイ**とクリエイティブコーディングのための場所です。\n\n各エッセイには独自の体験（Experience）を付けられます。いまのところ、この記事はデフォルトのレイアウトを使っています。\n\n## これから\n\nもっとエッセイを、もっと形式を、もっと実験を。"
 }

@@ -8,7 +8,7 @@ export default function Home() {
           RIO LAB
         </h1>
         <p className="text-lg leading-relaxed text-foreground/70">
-          Experimental web essay & creative coding lab
+          体験型ウェブエッセイとクリエイティブコーディングのラボ
         </p>
       </div>
 
@@ -16,30 +16,30 @@ export default function Home() {
         <li>
           <Link href="/essays" className="group block">
             <span className="font-medium text-foreground group-hover:underline">
-              Essays
+              エッセイ
             </span>
             <span className="mt-1 block text-sm text-foreground/60">
-              Written experiments in form and thought
+              形式と思想の実験的な文章
             </span>
           </Link>
         </li>
         <li>
           <Link href="/experiments" className="group block">
             <span className="font-medium text-foreground group-hover:underline">
-              Experiments
+              実験
             </span>
             <span className="mt-1 block text-sm text-foreground/60">
-              Creative coding and web technique studies
+              クリエイティブコーディングとWeb技術の試行
             </span>
           </Link>
         </li>
         <li>
           <Link href="/about" className="group block">
             <span className="font-medium text-foreground group-hover:underline">
-              About
+              について
             </span>
             <span className="mt-1 block text-sm text-foreground/60">
-              Who runs this lab
+              このラボについて
             </span>
           </Link>
         </li>
