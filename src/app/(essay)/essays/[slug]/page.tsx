@@ -15,7 +15,7 @@ export async function generateMetadata({
   const essay = await getPublishedEssay(slug);
 
   if (!essay) {
-    return { title: "Not found — RIO LAB" };
+    return { title: "見つかりません — RIO LAB" };
   }
 
   return {
