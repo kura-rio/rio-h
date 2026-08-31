@@ -1,5 +1,6 @@
 "use server";
 
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 import {
   isEssayStatus,
@@ -7,9 +8,10 @@ import {
   type EssayStatus,
 } from "@/domain/essay";
 import { requireAdmin } from "@/lib/admin/auth";
-import { LocalFsEssayRepository } from "@/lib/essays/local-fs-repository";
+import { createEssayRepository } from "@/lib/essays/create-repository";
+import { EssayStorageError } from "@/lib/essays/github-repository";
 
-const repository = new LocalFsEssayRepository();
+const repository = createEssayRepository();
 
 function todayDate(): string {
   return new Date().toISOString().slice(0, 10);
@@ -25,6 +27,13 @@ function slugify(value: string): string {
 
 function readField(formData: FormData, key: string): string {
   return String(formData.get(key) ?? "").trim();
+}
+
+function storageErrorMessage(error: unknown): string {
+  if (error instanceof EssayStorageError) {
+    return error.message;
+  }
+  return "保存処理に失敗しました。時間をおいて再度お試しください。";
 }
 
 function buildEssayFromForm(
@@ -87,16 +96,26 @@ export async function createEssayAction(formData: FormData): Promise<void> {
     );
   }
 
-  const existing = await repository.getBySlug(essay.slug);
-  if (existing) {
+  try {
+    const existing = await repository.getBySlug(essay.slug);
+    if (existing) {
+      redirect(
+        `/admin/essays/new?error=${encodeURIComponent(
+          `スラッグ「${essay.slug}」はすでに使われています。`,
+        )}`,
+      );
+    }
+
+    await repository.save(essay);
+  } catch (caught) {
+    if (isRedirectError(caught)) {
+      throw caught;
+    }
     redirect(
-      `/admin/essays/new?error=${encodeURIComponent(
-        `スラッグ「${essay.slug}」はすでに使われています。`,
-      )}`,
+      `/admin/essays/new?error=${encodeURIComponent(storageErrorMessage(caught))}`,
     );
   }
 
-  await repository.save(essay);
   redirect(`/admin/essays/${essay.slug}`);
 }
 
@@ -110,7 +129,20 @@ export async function updateEssayAction(formData: FormData): Promise<void> {
     );
   }
 
-  const existing = await repository.getBySlug(originalSlug);
+  let existing: Essay | null;
+  try {
+    existing = await repository.getBySlug(originalSlug);
+  } catch (caught) {
+    if (isRedirectError(caught)) {
+      throw caught;
+    }
+    redirect(
+      `/admin/essays/${originalSlug}?error=${encodeURIComponent(
+        storageErrorMessage(caught),
+      )}`,
+    );
+  }
+
   if (!existing) {
     redirect(
       `/admin?error=${encodeURIComponent("エッセイが見つかりません。")}`,
@@ -126,19 +158,30 @@ export async function updateEssayAction(formData: FormData): Promise<void> {
     );
   }
 
-  if (essay.slug !== originalSlug) {
-    const conflict = await repository.getBySlug(essay.slug);
-    if (conflict) {
-      redirect(
-        `/admin/essays/${originalSlug}?error=${encodeURIComponent(
-          `スラッグ「${essay.slug}」はすでに使われています。`,
-        )}`,
-      );
+  try {
+    if (essay.slug !== originalSlug) {
+      const conflict = await repository.getBySlug(essay.slug);
+      if (conflict) {
+        redirect(
+          `/admin/essays/${originalSlug}?error=${encodeURIComponent(
+            `スラッグ「${essay.slug}」はすでに使われています。`,
+          )}`,
+        );
+      }
+      await repository.save(essay);
+      await repository.delete(originalSlug);
+    } else {
+      await repository.save(essay);
     }
-    await repository.save(essay);
-    await repository.delete(originalSlug);
-  } else {
-    await repository.save(essay);
+  } catch (caught) {
+    if (isRedirectError(caught)) {
+      throw caught;
+    }
+    redirect(
+      `/admin/essays/${originalSlug}?error=${encodeURIComponent(
+        storageErrorMessage(caught),
+      )}`,
+    );
   }
 
   redirect(`/admin/essays/${essay.slug}`);
