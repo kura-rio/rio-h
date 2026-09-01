@@ -1,3 +1,5 @@
+import "server-only";
+
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { parseEssay, type Essay } from "@/domain/essay";

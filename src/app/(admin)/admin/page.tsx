@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { Essay } from "@/domain/essay";
 import { requireAdmin } from "@/lib/admin/auth";
-import { LocalFsEssayRepository } from "@/lib/essays/local-fs-repository";
+import {
+  createEssayRepository,
+  getEssayRepositoryKind,
+} from "@/lib/essays/create-repository";
+import { EssayStorageError } from "@/lib/essays/github-repository";
 
 export const dynamic = "force-dynamic";
 
@@ -17,21 +22,40 @@ function statusLabel(status: string): string {
   return status === "published" ? "公開" : "下書き";
 }
 
+function storageHint(): string {
+  if (getEssayRepositoryKind() === "github") {
+    return "保存先: GitHub（content/essays）。公開反映は自動デプロイ後です。";
+  }
+  return "保存先: ローカルファイル — content/essays";
+}
+
 export default async function AdminPage({ searchParams }: AdminPageProps) {
   await requireAdmin();
 
   const { error } = await searchParams;
-  const repository = new LocalFsEssayRepository();
-  const essays = await repository.getAll();
+  const repository = createEssayRepository();
+
+  let essays: Essay[] = [];
+  let loadError: string | undefined;
+
+  try {
+    essays = await repository.getAll();
+  } catch (caught) {
+    essays = [];
+    loadError =
+      caught instanceof EssayStorageError
+        ? caught.message
+        : "一覧の取得に失敗しました。時間をおいて再度お試しください。";
+  }
+
+  const displayError = error ?? loadError;
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">エッセイ</h1>
-          <p className="text-sm text-foreground/60">
-            ローカルファイル — content/essays
-          </p>
+          <p className="text-sm text-foreground/60">{storageHint()}</p>
         </div>
         <Link
           href="/admin/essays/new"
@@ -41,15 +65,17 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </Link>
       </div>
 
-      {error ? (
+      {displayError ? (
         <p className="text-sm text-red-600 dark:text-red-400" role="alert">
-          {error}
+          {displayError}
         </p>
       ) : null}
 
-      {essays.length === 0 ? (
+      {essays.length === 0 && !loadError ? (
         <p className="text-foreground/70">エッセイはまだありません。</p>
-      ) : (
+      ) : null}
+
+      {essays.length > 0 ? (
         <ul className="flex flex-col divide-y divide-foreground/10 border-y border-foreground/10">
           {essays.map((essay) => (
             <li
@@ -77,7 +103,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </li>
           ))}
         </ul>
-      )}
+      ) : null}
     </div>
   );
 }

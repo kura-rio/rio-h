@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { listExperiences } from "@/experiences/registry";
 import { requireAdmin } from "@/lib/admin/auth";
 import { updateEssayAction } from "@/lib/admin/essay-actions";
-import { LocalFsEssayRepository } from "@/lib/essays/local-fs-repository";
+import { createEssayRepository } from "@/lib/essays/create-repository";
+import { EssayStorageError } from "@/lib/essays/github-repository";
 
 export const dynamic = "force-dynamic";
 
@@ -28,11 +29,40 @@ export default async function EditEssayPage({
 
   const { slug } = await params;
   const { error } = await searchParams;
-  const repository = new LocalFsEssayRepository();
-  const essay = await repository.getBySlug(slug);
+  const repository = createEssayRepository();
 
-  if (!essay) {
+  let essay;
+  let loadError: string | undefined;
+
+  try {
+    essay = await repository.getBySlug(slug);
+  } catch (caught) {
+    loadError =
+      caught instanceof EssayStorageError
+        ? caught.message
+        : "エッセイの取得に失敗しました。時間をおいて再度お試しください。";
+  }
+
+  if (!essay && !loadError) {
     notFound();
+  }
+
+  if (loadError || !essay) {
+    return (
+      <div className="flex flex-col gap-4">
+        <p className="text-sm">
+          <Link
+            href="/admin"
+            className="text-foreground/60 hover:text-foreground"
+          >
+            ← エッセイ一覧
+          </Link>
+        </p>
+        <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+          {loadError ?? "エッセイが見つかりません。"}
+        </p>
+      </div>
+    );
   }
 
   const experiences = listExperiences();
