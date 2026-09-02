@@ -1,38 +1,44 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listPublishedEssays } from "@/lib/essays/read";
+import styles from "../essays.module.css";
 
 export const metadata: Metadata = {
   title: "エッセイ — RIO LAB",
   description: "形式と思想の実験的な文章",
 };
 
+function formatDate(value: string | null | undefined): string | null {
+  if (!value) {
+    return null;
+  }
+  return value.replace(/-/g, ".");
+}
+
 export default async function EssaysPage() {
   const essays = await listPublishedEssays();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-          エッセイ
-        </h1>
-        <p className="text-foreground/70">形式と思想の実験的な文章</p>
-      </div>
+    <div className={styles.page}>
+      <header className={styles.header}>
+        <p className={styles.label}>Essays</p>
+        <h1 className={styles.title}>エッセイ</h1>
+        <p className={styles.desc}>形式と思想の実験的な文章</p>
+      </header>
 
       {essays.length === 0 ? (
-        <p className="text-foreground/70">まだ公開されたエッセイはありません。</p>
+        <p className={styles.empty}>まだ公開されたエッセイはありません。</p>
       ) : (
-        <ul className="flex flex-col gap-6">
+        <ul className={styles.list}>
           {essays.map((essay) => (
-            <li key={essay.slug}>
-              <Link href={`/essays/${essay.slug}`} className="group block">
-                <span className="font-medium text-foreground group-hover:underline">
-                  {essay.title}
-                </span>
+            <li key={essay.slug} className={styles.item}>
+              <Link href={`/essays/${essay.slug}`} className={styles.link}>
+                <span className={styles.linkTitle}>{essay.title}</span>
+                {formatDate(essay.publishedAt) ? (
+                  <span className={styles.meta}>{formatDate(essay.publishedAt)}</span>
+                ) : null}
                 {essay.excerpt ? (
-                  <span className="mt-1 block text-sm text-foreground/60">
-                    {essay.excerpt}
-                  </span>
+                  <span className={styles.excerpt}>{essay.excerpt}</span>
                 ) : null}
               </Link>
             </li>
