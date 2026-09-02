@@ -1,38 +1,34 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import shell from "./site-shell.module.css";
 
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <>
-      <header className="mx-auto w-full max-w-2xl px-6 pt-10">
-        <nav aria-label="メインナビゲーション">
-          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-foreground/70">
-            <li>
-              <Link href="/" className="hover:text-foreground">
-                ホーム
-              </Link>
-            </li>
-            <li>
-              <Link href="/essays" className="hover:text-foreground">
-                エッセイ
-              </Link>
-            </li>
-            <li>
-              <Link href="/experiments" className="hover:text-foreground">
-                実験
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-foreground">
-                について
-              </Link>
-            </li>
-          </ul>
-        </nav>
+    <div className={shell.siteRoot}>
+      <header className={shell.header}>
+        <div className={shell.headerInner}>
+          <p className={shell.brand}>
+            <Link href="/" className={shell.brandLink}>
+              RIO LAB
+            </Link>
+          </p>
+          <nav aria-label="メインナビゲーション" className={shell.nav}>
+            <Link href="/" className={shell.navLink}>
+              ホーム
+            </Link>
+            <Link href="/essays" className={shell.navLink}>
+              エッセイ
+            </Link>
+            <Link href="/experiments" className={shell.navLink}>
+              実験
+            </Link>
+            <Link href="/about" className={shell.navLink}>
+              について
+            </Link>
+          </nav>
+        </div>
       </header>
-      <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-6 py-16">
-        {children}
-      </main>
-    </>
+      <main className={shell.main}>{children}</main>
+    </div>
   );
 }

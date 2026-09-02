@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import styles from "../page.module.css";
 
 export const metadata: Metadata = {
   title: "実験 — RIO LAB",
@@ -7,11 +8,10 @@ export const metadata: Metadata = {
 
 export default function ExperimentsPage() {
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-        実験
-      </h1>
-      <p className="text-foreground/70">準備中です。</p>
+    <div className={styles.page}>
+      <p className={styles.label}>Experiments</p>
+      <h1 className={styles.title}>実験</h1>
+      <p className={styles.body}>準備中です。</p>
     </div>
   );
 }
