@@ -1,0 +1,101 @@
+/* ネオブルータル: サイト内ページ共通 */
+
+.page {
+  --page-side: 0.8125rem;
+
+  padding-inline: var(--page-side);
+}
+
+.desc {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.625rem;
+  border: 2px solid var(--site-border);
+  border-radius: var(--site-radius);
+  background: var(--site-lime-soft);
+  box-shadow: var(--site-hard-shadow-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--site-ink);
+}
+
+.body {
+  margin: 0;
+  padding: 0.25rem 0.125rem;
+  font-size: 0.75rem;
+  line-height: 1.65;
+  font-weight: 600;
+  color: var(--site-ink);
+}
+
+.empty {
+  margin: 0;
+  padding: 0.625rem 0.75rem;
+  border: 2px solid var(--site-border);
+  border-radius: var(--site-radius);
+  background: var(--site-orange-soft);
+  box-shadow: var(--site-hard-shadow-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--site-muted);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--site-border);
+  border-radius: var(--site-radius);
+  background: var(--site-surface);
+  box-shadow: var(--site-hard-shadow);
+  overflow: hidden;
+}
+
+.item + .item {
+  border-top: 2px solid var(--site-line-soft);
+}
+
+.link {
+  display: block;
+  padding: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.link:hover {
+  background: var(--site-blue-soft);
+}
+
+.linkTitle {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1.45;
+  color: var(--site-ink);
+}
+
+.meta {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.5625rem;
+  font-weight: 800;
+  font-family: var(--font-mono), monospace;
+  color: var(--site-muted);
+}
+
+.excerpt {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--site-muted);
+}
+
+.folderGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 0.625rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0 0;
+}

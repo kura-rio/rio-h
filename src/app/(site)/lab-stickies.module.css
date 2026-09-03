@@ -1,0 +1,61 @@
+.strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.625rem;
+  margin: 0.125rem 0 0.25rem;
+  list-style: none;
+  padding: 0.35rem 0 0.5rem;
+}
+
+.note {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-height: 5.5rem;
+  padding: 0.625rem 0.625rem 0.75rem;
+  border: 2px solid var(--site-border);
+  border-radius: 2px;
+  box-shadow: var(--site-hard-shadow-sm);
+}
+
+.noteLime {
+  background: var(--site-lime);
+  color: var(--site-ink);
+}
+
+.noteMagenta {
+  background: var(--site-magenta);
+  color: #ffffff;
+}
+
+.noteOrange {
+  background: var(--site-orange);
+  color: #ffffff;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.5625rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.body {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+@media (max-width: 420px) {
+  .strip {
+    grid-template-columns: 1fr;
+  }
+
+  .note {
+    min-height: 0;
+  }
+}

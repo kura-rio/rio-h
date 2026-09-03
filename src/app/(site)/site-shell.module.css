@@ -1,47 +1,107 @@
 .siteRoot {
-  --site-bg: #060d18;
-  --site-surface: #0c1628;
-  --site-elevated: #122038;
-  --site-ink: #e8eef7;
-  --site-muted: #8fa3bf;
-  --site-blue: #3d7cff;
-  --site-cyan: #5ce1e6;
-  --site-line: rgba(120, 160, 220, 0.2);
-  --site-glow: 0 0 24px rgba(61, 124, 255, 0.12);
+  /* ネオブルータル palette */
+  --site-green: #1fcd6a;
+  --site-blue: #3840f8;
+  --site-magenta: #ef228d;
+  --site-lime: #daff03;
+  --site-ink: #1a1a1a;
+  --site-orange: #ff511a;
+  --site-bg: #ffffff;
+  --site-surface: #ffffff;
+  --site-window-face: var(--site-surface);
+  --site-pink: var(--site-magenta);
+  --site-pink-soft: color-mix(in srgb, var(--site-magenta) 22%, white);
+  --site-lime-soft: color-mix(in srgb, var(--site-lime) 32%, white);
+  --site-green-soft: color-mix(in srgb, var(--site-green) 28%, white);
+  --site-blue-soft: color-mix(in srgb, var(--site-blue) 18%, white);
+  --site-orange-soft: color-mix(in srgb, var(--site-orange) 22%, white);
+  --site-navy-deep: var(--site-ink);
+  --site-navy: var(--site-blue);
+  --site-navy-mid: var(--site-blue);
+  --site-navy-soft: var(--site-blue-soft);
+  --site-navy-band: var(--site-green);
+  --site-navy-band-deep: var(--site-blue);
+  --site-navy-chip: var(--site-orange-soft);
+  --site-band: var(--site-blue);
+  --site-band-alt: var(--site-pink-soft);
+  --site-muted: color-mix(in srgb, var(--site-ink) 58%, white);
+  --site-link: var(--site-blue);
+  --site-line: var(--site-ink);
+  --site-line-soft: rgb(26 26 26 / 0.14);
+  --site-border: var(--site-ink);
+  --site-ink-on-band: #ffffff;
+  --site-muted-on-band: color-mix(in srgb, white 75%, var(--site-blue));
+  --site-titlebar-text: #ffffff;
+  --site-bevel-light: #ffffff;
+  --site-bevel-mid: #f3f3f3;
+  --site-bevel-dark: var(--site-ink);
+  --site-bevel-shadow: var(--site-ink);
+  --site-radius: 10px;
+  --site-radius-lg: 14px;
+  --site-hard-shadow: 4px 4px 0 var(--site-ink);
+  --site-hard-shadow-sm: 3px 3px 0 var(--site-ink);
+  --site-glass: var(--site-surface);
+  --site-glass-navy: var(--site-surface);
+  --site-virtual-glass: var(--site-surface);
+  --site-virtual-edge: var(--site-border);
+  --site-cyan: var(--site-muted);
+  --site-elevated: var(--site-surface);
+  --site-glow: none;
+  --site-lavender: var(--site-pink-soft);
+  --site-lavender-soft: var(--site-surface);
+  --site-lavender-chip: var(--site-pink);
+  --site-glass-lavender: var(--site-surface);
 
   display: flex;
   min-height: 100%;
   flex: 1;
   flex-direction: column;
-  background: var(--site-bg);
+  background-color: var(--site-bg);
+  background-image:
+    linear-gradient(rgb(26 26 26 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(26 26 26 / 0.045) 1px, transparent 1px),
+    linear-gradient(rgb(56 64 248 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(56 64 248 / 0.035) 1px, transparent 1px);
+  background-size:
+    16px 16px,
+    16px 16px,
+    80px 80px,
+    80px 80px;
+  background-position: 0 0;
   color: var(--site-ink);
+  font-family: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
 }
 
 .header {
   position: sticky;
   top: 0;
   z-index: 10;
-  border-bottom: 1px solid var(--site-line);
-  background: color-mix(in srgb, var(--site-bg) 92%, transparent);
-  backdrop-filter: blur(8px);
+  width: 100%;
+  max-width: 32rem;
+  margin: 0.5rem auto 0;
+  padding-inline: 0.8125rem;
+}
+
+.headerPanel {
+  border: 2px solid var(--site-border);
+  border-radius: var(--site-radius-lg);
+  background: var(--site-surface);
+  box-shadow: var(--site-hard-shadow);
 }
 
 .headerInner {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
-  max-width: 32rem;
-  margin: 0 auto;
-  padding: 1rem 1.25rem;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem 0.75rem;
 }
 
 .brand {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--site-cyan);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--site-navy-deep);
 }
 
 .brandLink {
@@ -56,30 +116,40 @@
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
+  gap: 0.375rem;
 }
 
 .navLink {
-  font-size: 0.875rem;
-  color: var(--site-muted);
+  padding: 0.25rem 0.625rem;
+  border: 2px solid var(--site-border);
+  border-radius: 999px;
+  background: var(--site-surface);
+  box-shadow: 2px 2px 0 var(--site-navy-deep);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  color: var(--site-navy-deep);
   text-decoration: none;
-  transition: color 0.15s ease;
 }
 
 .navLink:hover {
-  color: var(--site-ink);
+  background: var(--site-lime-soft);
+}
+
+.navLink:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
 }
 
 .main {
   flex: 1;
   width: 100%;
   max-width: 32rem;
-  margin: 0 auto;
-  padding: 1.5rem 1.25rem 3rem;
+  margin: 0.75rem auto 0;
+  padding: 0 0 2.5rem;
 }
 
 @media (min-width: 768px) {
-  .headerInner,
+  .header,
   .main {
     max-width: 36rem;
   }

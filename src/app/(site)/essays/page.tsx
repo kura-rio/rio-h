@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listPublishedEssays } from "@/lib/essays/read";
-import styles from "../essays.module.css";
+import styles from "../site-page.module.css";
+import { WindowFrame, windowStyles } from "../site-window";
 
 export const metadata: Metadata = {
   title: "エッセイ — RIO LAB",
@@ -20,31 +21,37 @@ export default async function EssaysPage() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <p className={styles.label}>Essays</p>
-        <h1 className={styles.title}>エッセイ</h1>
+      <WindowFrame title="Essays" subtitle="エッセイ" titleId="essays-title">
         <p className={styles.desc}>形式と思想の実験的な文章</p>
-      </header>
 
-      {essays.length === 0 ? (
-        <p className={styles.empty}>まだ公開されたエッセイはありません。</p>
-      ) : (
-        <ul className={styles.list}>
-          {essays.map((essay) => (
-            <li key={essay.slug} className={styles.item}>
-              <Link href={`/essays/${essay.slug}`} className={styles.link}>
-                <span className={styles.linkTitle}>{essay.title}</span>
-                {formatDate(essay.publishedAt) ? (
-                  <span className={styles.meta}>{formatDate(essay.publishedAt)}</span>
-                ) : null}
-                {essay.excerpt ? (
-                  <span className={styles.excerpt}>{essay.excerpt}</span>
-                ) : null}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+        {essays.length === 0 ? (
+          <p className={styles.empty}>まだ公開されたエッセイはありません。</p>
+        ) : (
+          <ul className={styles.folderGrid}>
+            {essays.map((essay) => (
+              <li key={essay.slug}>
+                <Link href={`/essays/${essay.slug}`} className={windowStyles.folderCard}>
+                  <span className={windowStyles.tag}>Essay</span>
+                  <span className={windowStyles.folderIcon} aria-hidden="true">
+                    ✎
+                  </span>
+                  <span className={windowStyles.folderBody}>
+                    <span className={windowStyles.folderTitle}>{essay.title}</span>
+                    {formatDate(essay.publishedAt) ? (
+                      <span className={windowStyles.folderMeta}>
+                        {formatDate(essay.publishedAt)}
+                      </span>
+                    ) : null}
+                    {essay.excerpt ? (
+                      <span className={windowStyles.folderMeta}>{essay.excerpt}</span>
+                    ) : null}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </WindowFrame>
     </div>
   );
 }

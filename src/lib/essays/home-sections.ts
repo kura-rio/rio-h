@@ -9,7 +9,6 @@ export type ExperienceHighlight = {
 
 export type HomePageSections = {
   featured: Essay | null;
-  pickUp: Essay | null;
   newEssays: Essay[];
   labNotes: Essay[];
   experiences: ExperienceHighlight[];
@@ -31,14 +30,10 @@ export function sortEssaysByPublishedAt(essays: Essay[]): Essay[] {
 export function buildHomePageSections(essays: Essay[]): HomePageSections {
   const sorted = sortEssaysByPublishedAt(essays);
   const featured = sorted[0] ?? null;
-  const pickUp = sorted.length >= 2 ? sorted[1] : null;
 
   const usedSlugs = new Set<string>();
   if (featured) {
     usedSlugs.add(featured.slug);
-  }
-  if (pickUp) {
-    usedSlugs.add(pickUp.slug);
   }
 
   const remaining = sorted.filter((essay) => !usedSlugs.has(essay.slug));
@@ -65,6 +60,16 @@ export function buildHomePageSections(essays: Essay[]): HomePageSections {
     }
   }
 
+  for (const experienceId of experienceMap.keys()) {
+    const preferred = sorted.find(
+      (essay) =>
+        essay.experienceId === experienceId && !usedSlugs.has(essay.slug),
+    );
+    if (preferred) {
+      experienceMap.set(experienceId, preferred);
+    }
+  }
+
   const experiences: ExperienceHighlight[] = [];
 
   for (const [experienceId, essay] of experienceMap) {
@@ -78,12 +83,15 @@ export function buildHomePageSections(essays: Essay[]): HomePageSections {
 
   experiences.sort((a, b) => a.experienceId.localeCompare(b.experienceId));
 
+  const visibleExperiences = experiences.filter(
+    ({ essay }) => !usedSlugs.has(essay.slug),
+  );
+
   return {
     featured,
-    pickUp,
     newEssays,
     labNotes,
-    experiences,
+    experiences: visibleExperiences,
   };
 }
 
